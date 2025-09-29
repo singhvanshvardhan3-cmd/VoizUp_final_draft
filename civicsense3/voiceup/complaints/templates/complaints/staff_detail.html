@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Complaint #{{ obj.id }} – Staff</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h5 mb-0">Complaint #{{ obj.id }}</h1>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'complaints:staff_list' %}">Back to List</a>
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'complaints:portal' %}">Portal</a>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="mb-3">
+        {% for m in messages %}
+          <div class="alert alert-{{ m.tags }} mb-0">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h6">Details</h2>
+            <dl class="row mb-0">
+              <dt class="col-sm-3">Title</dt>
+              <dd class="col-sm-9">{{ obj.title }}</dd>
+
+              <dt class="col-sm-3">Category</dt>
+              <dd class="col-sm-9">{{ obj.category }}</dd>
+
+              <dt class="col-sm-3">Description</dt>
+              <dd class="col-sm-9"><pre class="mb-0" style="white-space:pre-wrap">{{ obj.description }}</pre></dd>
+
+              <dt class="col-sm-3">Status</dt>
+              <dd class="col-sm-9">
+                {% if obj.status == "Active" %}
+                  <span class="badge text-bg-warning">Active</span>
+                {% else %}
+                  <span class="badge text-bg-success">Resolved</span>
+                {% endif %}
+              </dd>
+
+              <dt class="col-sm-3">Attachment</dt>
+              <dd class="col-sm-9">
+                {% if obj.attachment %}
+                  <a href="{{ obj.attachment.url }}" target="_blank" rel="noopener">Download</a>
+                {% else %}
+                  <span class="text-muted">None</span>
+                {% endif %}
+              </dd>
+
+              <dt class="col-sm-3">Created</dt>
+              <dd class="col-sm-9">{{ obj.created_at|date:"Y-m-d H:i" }}</dd>
+
+              <dt class="col-sm-3">Complainant</dt>
+              <dd class="col-sm-9">
+                {% if obj.created_by %}
+                  {{ obj.created_by.get_username }}
+                {% else %}
+                  <span class="text-muted">Guest</span>
+                {% endif %}
+              </dd>
+
+              <dt class="col-sm-3">Notify Email</dt>
+              <dd class="col-sm-9">{{ obj.notify_email|default:"—" }}</dd>
+
+              <dt class="col-sm-3">Notify SMS</dt>
+              <dd class="col-sm-9">{{ obj.notify_phone|default:"—" }}</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h2 class="h6 mb-3">Internal Notes</h2>
+            <form method="post" action="{% url 'complaints:staff_update' obj.id %}" class="mb-3">
+              {% csrf_token %}
+              <input type="hidden" name="status" value="{{ obj.status }}">
+              <div class="mb-2">
+                {{ note_form.note }}
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="text-muted small">Notes are visible only to staff.</div>
+                <button class="btn btn-dark btn-sm" type="submit">Add Note</button>
+              </div>
+            </form>
+
+            <ul class="list-group">
+              {% for n in notes %}
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between">
+                    <strong>{{ n.author.get_username|default:"staff" }}</strong>
+                    <span class="text-muted small">{{ n.created_at|date:"Y-m-d H:i" }}</span>
+                  </div>
+                  <div class="mt-1" style="white-space:pre-wrap">{{ n.note }}</div>
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">No notes yet.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h6">Update Status</h2>
+            <form method="post" action="{% url 'complaints:staff_update' obj.id %}">
+              {% csrf_token %}
+              <div class="mb-2">
+                <label class="form-label">Status</label>
+                {{ form.status }}
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Optional note</label>
+                {{ form.note }}
+              </div>
+              <div class="form-check mb-3">
+                {{ form.send_notification }}
+                <label class="form-check-label" for="{{ form.send_notification.id_for_label }}">
+                  Notify complainant (email/SMS if provided)
+                </label>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-dark" type="submit">Save Changes</button>
+              </div>
+            </form>
+            <p class="text-muted small mt-2 mb-0">
+              Changing to Resolved sends a clearer signal in notifications. Use notes for brief context.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

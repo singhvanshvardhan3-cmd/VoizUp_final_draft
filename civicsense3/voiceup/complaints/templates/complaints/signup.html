@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="{% static 'complaints/style.css' %}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Sign Up</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="input-box">
+          {{ form.first_name.errors }}
+          {{ form.first_name }}
+        </div>
+
+        <div class="input-box">
+          {{ form.last_name.errors }}
+          {{ form.last_name }}
+        </div>
+
+        <div class="input-box">
+          {{ form.mobile_number.errors }}
+          {{ form.mobile_number }}
+        </div>
+
+        <div class="input-box">
+          {{ form.email.errors }}
+          {{ form.email }}
+        </div>
+
+        <div class="input-box">
+          {{ form.password.errors }}
+          {{ form.password }}
+        </div>
+
+        <div class="input-box">
+          {{ form.confirm_password.errors }}
+          {{ form.confirm_password }}
+        </div>
+
+        <button type="submit" class="btn">SIGN UP</button>
+      </form>
+
+      <p class="divider">Already have an account?</p>
+      <p class="signup-text">
+      <a href="{% url 'complaints:login' %}">LOGIN</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

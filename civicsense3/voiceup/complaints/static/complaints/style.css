@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.form-box {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  width: 350px;
+  text-align: center;
+}
+
+.form-box h2 {
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.input-box {
+  position: relative;
+  margin: 15px 0;
+}
+
+.input-box i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 40px 12px 35px; /* space for the icon */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+  transition: border 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-box input:focus {
+  border: 1px solid #6a11cb;
+  box-shadow: 0 0 5px rgba(106,17,203,0.3);
+}
+
+
+
+.options {
+  text-align: right;
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.options a {
+  color: #6a11cb;
+  text-decoration: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.divider {
+  margin: 20px 0;
+  font-size: 13px;
+  color: #777;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-login a {
+  width: 40px;
+  height: 40px;
+  background: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.social-login a:hover {
+  background: #ddd;
+}
+
+.signup-text {
+  font-size: 13px;
+  color: #555;
+}
+
+.signup-text a {
+  color: #6a11cb;
+  font-weight: bold;
+  text-decoration: none;
+}

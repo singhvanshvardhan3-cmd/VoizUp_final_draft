@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'complaints/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Login</h2>
+      <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Email field -->
+        <div class="input-box">
+          <i class="fa fa-envelope"></i>
+          <input type="email" name="email" placeholder="Type your email" required>
+        </div>
+        
+        <!-- Password field -->
+        <div class="input-box">
+          <i class="fa fa-lock"></i>
+          <input type="password" name="password" placeholder="Type your password" required>
+          </div>
+        <div>
+          {% if messages %}
+        <ul>
+          {% for msg in messages %}
+            <li>{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+        </div>
+        <div class="options">
+          <a href="#">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="btn">LOGIN</button>
+      </form>
+
+      <!-- Show error/success messages -->
+      
+
+      <p class="divider">Or Sign Up Using</p>
+      <div class="social-login">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-google"></i></a>
+      </div>
+
+      <p class="signup-text">Or Sign Up Using <br> 
+        <a href="{% url 'complaints:signup' %}">SIGN UP</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
